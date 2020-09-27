@@ -12,7 +12,8 @@ import com.mahmoudshaaban.zodiac.model.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MoviesAdapter(
-    private var movies: MutableList<Movie>
+    private var movies: MutableList<Movie> ,
+    private val onMovieClick: (movie: Movie) -> Unit
 ) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -44,10 +45,15 @@ class MoviesAdapter(
         private val poster = itemView.item_movie_poster
 
         fun bind(movie: Movie) {
+
             Glide.with(itemView)
                 .load("https://image.tmdb.org/t/p/w342${movie.posterPath}")
                 .transform(CenterCrop())
                 .into(poster)
+
+            itemView.setOnClickListener{
+                onMovieClick.invoke(movie)
+            }
         }
     }
 }
